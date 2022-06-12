@@ -1,0 +1,10 @@
+divisão 1 ->
+    Anthony
+    Lara
+    Fernanda
+
+
+divisão 2 ->
+    Marcus
+    Victor
+    Levi
