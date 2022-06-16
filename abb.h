@@ -13,6 +13,7 @@ typedef struct dadosBasicos{
     struct dadosBasicos * pai;
     struct dadosBasicos * esq;
     struct dadosBasicos * dir;
+
 }dadosBasicos;
 
 typedef struct dadosCompletos{
@@ -61,11 +62,12 @@ void add_abb(int id, char *nome_aluno, int matricula, char *descricao){
         printf("Insercao invalida!\n");
     }else{
         
-        dadosBasicos* novo = malloc(sizeof(dadosBasicos));
+        dadosBasicos * novo = malloc(sizeof(dadosBasicos));
         novo->id = id;
         novo->nome_aluno = nome_aluno;
         novo->matricula = matricula;
         novo->descricao = descricao;
+        novo->pai = NULL;
         novo->esq = NULL;
         novo->dir = NULL;
         
@@ -81,10 +83,10 @@ void add_abb(int id, char *nome_aluno, int matricula, char *descricao){
     }
 }
 
-dadosBasicos* remover( int id, dadosBasicos* raiz){
+dadosBasicos* remover(dadosBasicos* raiz, int id){
 
     dadosCompletos dadosCompletos;
-    dadosBasicos* aux = busca(id, raiz);
+    dadosBasicos* aux = buscar(id, raiz);
     //caso 1: remove quando é uma folha
     if(aux->esq == NULL && aux->dir == NULL){
         if(aux->id <= aux->pai->id){
