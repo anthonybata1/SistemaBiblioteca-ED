@@ -1,23 +1,21 @@
+/*Lucas Rodrigues Oliveira
+  Ciência da Computação
+  475053
+*/
 #include <stdio.h>
 #include <stdlib.h>
 
 typedef struct dadosBasicos{
-   
-    //Dados iniciais da encomenda de um livro
-    int id; //identificador
+    int id;
     char * nome_aluno;
     int matricula;
     char * descricao;
-    
-    //mecanismo p/ unir nos!
-    struct dadosBasicos * pai;
-    struct dadosBasicos * esq;
-    struct dadosBasicos * dir;
-
+    struct dadosBasicos *pai;
+    struct dadosBasicos *esq;
+    struct dadosBasicos *dir;
 }dadosBasicos;
 
-typedef struct dadosCompletos{
-   
+typedef struct dadosCompletos{   
     //Dados iniciais da encomenda de um livro
     int id; //identificador
     char * nome_aluno;
@@ -29,62 +27,58 @@ typedef struct dadosCompletos{
     
 }dadosCompletos;
 
-dadosBasicos * raiz = NULL;
+dadosBasicos* raiz = NULL;
 
-dadosBasicos* buscar(int id_buscar, dadosBasicos *aux){
-    
-    if(aux != NULL){
-        if(aux->id == id_buscar){
-            return aux;
-        }else if(id_buscar < aux->id){
-            if(aux->esq != NULL){
-                return buscar(id_buscar, aux->esq);
-            }else{
-                return aux;
-            }
-        }else if(id_buscar > aux->id){
-            if(aux->dir != NULL){
-                return buscar(id_buscar, aux->dir);
-            }else{
-                return aux;
-            }
+dadosBasicos* busca(int x, dadosBasicos* aux){
+    if(aux == NULL){
+        return NULL; //vazia
+    }else if(x == aux->id){
+        return aux; //encontrei :D
+    }else if(x<aux->id){ //buscar no lado esq
+        if(aux->esq != NULL){
+            return busca(x, aux->esq);
+        }else{//esq esta vazia
+            return aux; //pai do elemento que não foi encontrado
         }
-    }else{
-        return NULL;
+    }else{//buscar no lado dir
+        if(aux->dir != NULL){
+            return busca(x, aux->dir);
+        }else{//dir esta vazia
+            return aux; //pai do elemento que não foi encontrado
+        }
     }
 }
 
-void add_abb(int id, char *nome_aluno, int matricula, char *descricao){
-
-    dadosBasicos* aux = buscar(id, raiz);  
-    if(aux == NULL || aux->id != id){      
-        dadosBasicos * novo = malloc(sizeof(dadosBasicos));
-        novo->id = id;
+void add(int x, char * nome_aluno, int matricula, char * descricao){
+    dadosBasicos* resp = busca(x, raiz);
+    if(resp == NULL || resp->id != x){// vazia ou eu posso adicionar
+        dadosBasicos* novo = malloc(sizeof(dadosBasicos));
+        novo->id = x;
         novo->nome_aluno = nome_aluno;
         novo->matricula = matricula;
         novo->descricao = descricao;
-        novo->pai = aux;
+        novo->pai = resp;
         novo->esq = NULL;
         novo->dir = NULL;
-        
-        if(aux == NULL){//arvore esta vazia
+
+        if(resp == NULL){ //add na raiz
             raiz = novo;
         }else{
-            if(id < aux->id){
-                aux->esq = novo;
+            if(x < resp->id){
+                resp->esq = novo;
             }else{
-                aux->dir = novo;
+                resp->dir = novo;
             }
         }
-    }else{        
-        printf("Insercao invalida!\n");
+    }else{//nao posso deixar add novamente pq neste caso
+        //havera ids duplicadas
+        printf("Add inválida. id duplicada");
     }
 }
 
-dadosBasicos* remover_abb(dadosBasicos* raiz, int id_remove){
-
+dadosBasicos* remover(dadosBasicos* raiz, int x){
     dadosCompletos dadosCompletos;
-    dadosBasicos* aux = buscar(id_remove, raiz);
+    dadosBasicos* aux = busca(x, raiz);
     //caso 1: remove quando é uma folha
     if(aux->esq == NULL && aux->dir == NULL){
         if(aux->id <= aux->pai->id){
@@ -92,22 +86,15 @@ dadosBasicos* remover_abb(dadosBasicos* raiz, int id_remove){
         }else{
             aux->pai->dir = NULL;
         }
-
-        //adicionadno os dados da struct que será removida na que será adicionadoa na lista de encomendas
-        dadosCompletos.id = aux->id;
-        dadosCompletos.nome_aluno = aux->nome_aluno;
-        dadosCompletos.matricula = aux->matricula;
-        dadosCompletos.descricao = aux->descricao;
-
         free(aux);
         return NULL;
     }else{
-        //remove quando tem 1 filho na esquerda
+        //remove quando tem 1 filho
         if(aux->esq != NULL && aux->dir == NULL){
             if(aux->id <= aux->pai->id){
             aux->pai->esq = aux->esq;
 
-             //adicionadno os dados da struct que será removida na que será adicionadoa na lista de encomendas
+            //adicionadno os dados da struct que será removida na que será adicionadoa na lista de encomendas
             dadosCompletos.id = aux->id;
             dadosCompletos.nome_aluno = aux->nome_aluno;
             dadosCompletos.matricula = aux->matricula;
@@ -116,7 +103,7 @@ dadosBasicos* remover_abb(dadosBasicos* raiz, int id_remove){
             free(aux);
             return NULL;
             }
-        }//remove quando tem 1 filho na direita
+        }
         if(aux->esq == NULL && aux->dir != NULL){
             if(aux->id > aux->pai->id){
                 aux->pai->dir = aux->dir;
@@ -134,44 +121,70 @@ dadosBasicos* remover_abb(dadosBasicos* raiz, int id_remove){
         //remove quando tem 2 filhos
         if(aux->esq != NULL && aux->dir != NULL){
             //efetuo a busca usando o maior dos menores
-            dadosBasicos* buscar_maior_dos_menores = aux->esq;
-            while(buscar_maior_dos_menores->dir  != NULL){
-                buscar_maior_dos_menores= buscar_maior_dos_menores->dir;
+            dadosBasicos* m = aux->esq;
+            while(m->dir  != NULL){
+                m= m->dir;
             }
             //o ponteiro m apontando para o no com id maior entre as ids menores
-            //agora eu efetuo uma troca entre o buscar_maior_dos_menores e o aux
-            aux->id = buscar_maior_dos_menores->id;
-            return remover_abb(buscar_maior_dos_menores, aux->id);
+            //agora eu efetuo uma troca entre o m e o aux
+            aux->id = m->id;
+            return remover(m, aux->id);
         }
     }
 }
 
 dadosBasicos* busca_arvore(int x){
-    dadosBasicos* aux = buscar(x, raiz);
-    if(aux == NULL){
+    dadosBasicos* resp = busca(x, raiz);
+    if(resp == NULL){
         //valor nao foi encontrado
         return NULL;
     }else{
-        if(aux->id == x){
-            return aux;
+        if(resp->id == x){
+            return resp;
         }else{
             return NULL;
         }
     }
 }
 
-void in_ordem(dadosBasicos *aux){
-    
+void in_ordem(dadosBasicos* aux){
     if(aux->esq != NULL){
         in_ordem(aux->esq);
     }
-    printf("%d\n", aux->id);
+    printf("%d \n", aux->id);
     printf("%s\n", aux->nome_aluno);
     printf("%d\n", aux->matricula);
     printf("%s\n", aux->descricao);
     if(aux->dir != NULL){
         in_ordem(aux->dir);
-        }
+    }
 }
 
+int main(){
+    add(50, "Lucas", 1526, "diario de um banana");
+    add(100, "Lucas", 1527, "diario de um banana");
+    add(49, "Lucas", 1528, "diario de um banana");
+    add(51, "Lucas", 1529, "diario de um banana");
+    add(30, "Lucas", 1530, "diario de um banana");
+    add(62, "Lucas", 1531, "diario de um banana");
+    add(17, "Lucas", 1532, "diario de um banana");
+    in_ordem(raiz);
+    remover(raiz, 51);
+    printf("\n apos a remocao 1\n");
+    in_ordem(raiz);
+    remover(raiz, 49);
+    printf("\n apos a remocao 2 \n");
+    in_ordem(raiz);
+    remover(raiz, 100);
+    printf("\n apos a remocao 3\n");
+    in_ordem(raiz);
+     remover(raiz, 17);
+    printf("\n apos a remocao 4\n");
+    in_ordem(raiz);
+    return 0;
+}
 
+/* 
+
+
+ */
