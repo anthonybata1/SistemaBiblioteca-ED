@@ -1,7 +1,3 @@
-/*Lucas Rodrigues Oliveira
-  Ciência da Computação
-  475053
-*/
 #include <stdio.h>
 #include <stdlib.h>
 
