@@ -1,0 +1,19 @@
+divisão 1 ->
+    Anthony
+    Lara
+    Fernanda
+Responsaveis por:
+Fase 1 e Fase 2.1:
+- Criação da ABB, Adicionar e remover da ABB. (OK) 
+- Adicionar na fila de pedidos.
+
+divisão 2 ->
+    Levi
+    Marcus
+    Victor
+Responsaveis por:
+Fase 2.2 e Fase 3:
+- Criação de uma função para o ID unico. (OK)
+- Fase Criar bibliotecário e transportador.
+- Verificar se a senha do bibliotecário esta certa 
+- Remover da fila de pedidos.
