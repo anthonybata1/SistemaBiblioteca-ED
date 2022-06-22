@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "struct.h"
+#include "id_aleatorio.h"
 
 dadosBasicos* raiz = NULL;
+int tam;
 
 dadosBasicos* busca(int x, dadosBasicos* aux){
     if(aux == NULL){
@@ -24,7 +26,54 @@ dadosBasicos* busca(int x, dadosBasicos* aux){
     }
 }
 
-void add_abb(int x, char * nome_aluno, int matricula, char * descricao){
+//TESTADO
+int busca_id(int x, dadosBasicos* auxiliar){
+    if(auxiliar == NULL){
+        return 0; //vazia
+    }else if(x == auxiliar->id){
+        return 1; //Id já cadastrado
+    }else if(x<auxiliar->id){ //buscar no lado esq
+        if(auxiliar->esq != NULL){
+            return busca_id(x, auxiliar->esq);
+        }else{//esq esta vazia
+            return 0; //não há id's iguais no lado esquerdo
+        }
+    }else{//buscar no lado dir
+        if(auxiliar->dir != NULL){
+            return busca_id(x, auxiliar->dir);
+        }else{//dir esta vazia
+            return 0; //não há id's iguais no lado direito
+        }
+    }
+}
+
+//TESTADO
+int id_aleatorio(){
+    //Dado a TAD ser de tamanho pequeno irei definir como se nao tivessem 
+    //mais de 100 pedidos a serem adicionados
+    int numero_aleatorio;
+    int verificador_id = 1;
+    if(tam == 0){
+        return 50;
+    //assim adicionando sempre uma vez na direita e uma na esquerda
+    }else if(tam % 2 == 0){  
+        while(verificador_id == 1){
+            numero_aleatorio = 1 + (rand() % 49);
+            verificador_id = busca_id(numero_aleatorio, raiz);
+        }
+        return numero_aleatorio; 
+    }else if(tam % 2 != 0){
+        while(verificador_id == 1){
+            numero_aleatorio = 51 + (rand() % 49);
+            verificador_id = busca_id(numero_aleatorio, raiz);
+        }
+        return numero_aleatorio; 
+    }    
+
+}
+
+void add_abb(char * nome_aluno, int matricula, char * descricao){
+    int x = id_aleatorio();
     dadosBasicos* resp = busca(x, raiz);
     if(resp == NULL || resp->id != x){// vazia ou eu posso adicionar
         dadosBasicos* novo = malloc(sizeof(dadosBasicos));
@@ -38,11 +87,14 @@ void add_abb(int x, char * nome_aluno, int matricula, char * descricao){
 
         if(resp == NULL){ //add na raiz
             raiz = novo;
+            tam++;
         }else{
             if(x < resp->id){
                 resp->esq = novo;
+                tam ++;
             }else{
                 resp->dir = novo;
+                tam ++;
             }
         }
     }else{//nao posso deixar add novamente pq neste caso
@@ -81,7 +133,7 @@ dadosBasicos* remover_abb(dadosBasicos* aux, int x){
                 //free(aux);
             }else if(aux->esq == NULL){//só tem um filho a diretia
                 dadosBasicos* aux_dir =  aux;
-                aux = aux->dir;
+                aux = aux->dir;               
                 //free(aux_dir);
 
             }else if(aux->dir == NULL){//so tem um filho a esquerda
@@ -98,7 +150,7 @@ dadosBasicos* remover_abb(dadosBasicos* aux, int x){
                 maior_dos_menores->id = x;
                 aux->esq  = remover_abb(aux->esq, x);//quando achar o maior valor a esquerda chama a função pois entrará nos 3 casos anteriores para remover_abb
             }
-        
+            tam--;
         }
     
         return aux;    
@@ -119,13 +171,13 @@ void in_ordem(dadosBasicos* aux){
 }
 
 /*int main(){
-    add(50, "Lucas", 1526, "diario de um banana");
-    add(100, "Lucas", 1527, "diario de um banana");
-    add(49, "Lucas", 1528, "diario de um banana");
-    add(51, "Lucas", 1529, "diario de um banana");
-    add(30, "Lucas", 1530, "diario de um banana");
-    add(62, "Lucas", 1531, "diario de um banana");
-    add(17, "Lucas", 1532, "diario de um banana");
+    add("Lucas", 1526, "diario de um banana");
+    add("Lucas", 1527, "diario de um banana");
+    add("Lucas", 1528, "diario de um banana");
+    add("Lucas", 1529, "diario de um banana");
+    add("Lucas", 1530, "diario de um banana");
+    add("Lucas", 1531, "diario de um banana");
+    add("Lucas", 1532, "diario de um banana");
     in_ordem(raiz);
     raiz = remover_abb(raiz, 51);
     printf("\n apos a remocao 1\n");
