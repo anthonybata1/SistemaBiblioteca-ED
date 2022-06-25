@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "struct.h"
-#include "fila.h"
 
 dadosBasicos* raiz = NULL;
 int tam;
@@ -113,7 +112,7 @@ dadosBasicos* remover_abb(dadosBasicos* aux, int x){
         }else if (aux->id < x){//se o id desse aux é menor que o valor passado para ser encontrado
             aux->dir = remover_abb(aux->dir, x);
         }else{//se foi encontrado o x, começa-se os formatos de remoção
-
+/*
             //adicionando na struct da fila de prioridades
             char * campus_aluno = malloc(sizeof(char));
             printf("Escreva o nome do campus do aluno que fez o pedido: ");
@@ -126,7 +125,7 @@ dadosBasicos* remover_abb(dadosBasicos* aux, int x){
             scanf("%d",&prioridade);
             
             add_fila(aux->id, aux->nome_aluno, aux->matricula, aux->descricao, campus_aluno, campus_livro, prioridade);
-        
+*/       
             if(aux->esq == NULL && aux->dir == NULL){//sem filhos
                 aux = NULL;
                 //free(aux);
@@ -169,14 +168,14 @@ void in_ordem(dadosBasicos* aux){
     }
 }
 
-/*int main(){
-    add("Lucas", 1526, "diario de um banana");
-    add("Lucas", 1527, "diario de um banana");
-    add("Lucas", 1528, "diario de um banana");
-    add("Lucas", 1529, "diario de um banana");
-    add("Lucas", 1530, "diario de um banana");
-    add("Lucas", 1531, "diario de um banana");
-    add("Lucas", 1532, "diario de um banana");
+int main(){
+    add_abb("Lucas", 1526, "diario de um banana");
+    add_abb("Lucas", 1527, "diario de um banana");
+    add_abb("Lucas", 1528, "diario de um banana");
+    add_abb("Lucas", 1529, "diario de um banana");
+    add_abb("Lucas", 1530, "diario de um banana");
+    add_abb("Lucas", 1531, "diario de um banana");
+    add_abb("Lucas", 1532, "diario de um banana");
     in_ordem(raiz);
     raiz = remover_abb(raiz, 51);
     printf("\n apos a remocao 1\n");
@@ -191,4 +190,4 @@ void in_ordem(dadosBasicos* aux){
     printf("\n apos a remocao 4\n");
     in_ordem(raiz);
     return 0;
-}*/
+}

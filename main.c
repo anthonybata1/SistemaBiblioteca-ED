@@ -1,8 +1,8 @@
-#include <divisao1.h>
-#include <divisao2.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "struct.h"
+#include "fila.h"
+#include "abb.h"
 
-int main(int argc, char const *argv[])
-{
-
-    return 0;
+int main(){
 }

@@ -20,5 +20,6 @@ typedef struct dadosCompletos{
     char * campus_aluno;
     char * campus_livro;
     int prioridade;
+    struct dadosCompletos *prox;
     
 }dadosCompletos;
