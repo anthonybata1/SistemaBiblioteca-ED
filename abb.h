@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "struct.h"
-#include "fila.h"
 
-dadosBasicos* raiz = NULL;
-int tam;
+Dados_Basicos* raiz = NULL;
+int tamanho_abb;
 
-dadosBasicos* busca(int x, dadosBasicos* aux){
+Dados_Basicos* busca(int x, Dados_Basicos* aux){
     if(aux == NULL){
         return NULL; //vazia
     }else if(x == aux->id){
@@ -26,7 +24,7 @@ dadosBasicos* busca(int x, dadosBasicos* aux){
     }
 }
 
-int busca_id(int x, dadosBasicos* auxiliar){
+int busca_id(int x, Dados_Basicos* auxiliar){
     if(auxiliar == NULL){
         return 0; //vazia
     }else if(x == auxiliar->id){
@@ -46,22 +44,21 @@ int busca_id(int x, dadosBasicos* auxiliar){
     }
 }
 
-
 int id_aleatorio(){
-    //Dado a TAD ser de tamanho pequeno irei definir como se nao tivessem 
+    //Dado a TAD ser de tamanho_abbanho pequeno irei definir como se nao tivessem 
     //mais de 100 pedidos a serem adicionados
     int numero_aleatorio;
     int verificador_id = 1;
-    if(tam == 0){
+    if(tamanho_abb == 0){
         return 50;
     //assim adicionando sempre uma vez na direita e uma na esquerda
-    }else if(tam % 2 == 0){  
+    }else if(tamanho_abb % 2 == 0){  
         while(verificador_id == 1){
             numero_aleatorio = 1 + (rand() % 49);
             verificador_id = busca_id(numero_aleatorio, raiz);
         }
         return numero_aleatorio; 
-    }else if(tam % 2 != 0){
+    }else if(tamanho_abb % 2 != 0){
         while(verificador_id == 1){
             numero_aleatorio = 51 + (rand() % 49);
             verificador_id = busca_id(numero_aleatorio, raiz);
@@ -73,9 +70,9 @@ int id_aleatorio(){
 
 void add_abb(char * nome_aluno, int matricula, char * descricao){
     int x = id_aleatorio();
-    dadosBasicos* resp = busca(x, raiz);
+    Dados_Basicos* resp = busca(x, raiz);
     if(resp == NULL || resp->id != x){// vazia ou eu posso adicionar
-        dadosBasicos* novo = malloc(sizeof(dadosBasicos));
+        Dados_Basicos* novo = malloc(sizeof(Dados_Basicos));
         novo->id = x;
         novo->nome_aluno = nome_aluno;
         novo->matricula = matricula;
@@ -86,14 +83,14 @@ void add_abb(char * nome_aluno, int matricula, char * descricao){
 
         if(resp == NULL){ //add na raiz
             raiz = novo;
-            tam++;
+            tamanho_abb++;
         }else{
             if(x < resp->id){
                 resp->esq = novo;
-                tam ++;
+                tamanho_abb ++;
             }else{
                 resp->dir = novo;
-                tam ++;
+                tamanho_abb ++;
             }
         }
     }else{//nao posso deixar add novamente pq neste caso
@@ -102,8 +99,7 @@ void add_abb(char * nome_aluno, int matricula, char * descricao){
     }
 }
 
-
-dadosBasicos* remover_abb(dadosBasicos* aux, int x){
+Dados_Basicos* remover_abb(Dados_Basicos* aux, int x){
 
     if(aux == NULL){//se não existe esse aux
         return NULL;
@@ -116,13 +112,13 @@ dadosBasicos* remover_abb(dadosBasicos* aux, int x){
 
             //adicionando na struct da fila de prioridades
             char * campus_aluno = malloc(sizeof(char));
-            printf("Escreva o nome do campus do aluno que fez o pedido: ");
-            scanf("%s",campus_aluno);
+            printf("Escreva o nome do campus onde o aluno que fez o pedido estuda: ");
+            scanf("%s", campus_aluno);
             char * campus_livro = malloc(sizeof(char));
-            printf("Escreva o nome do campus do livre desejado: ");
-            scanf("%s",campus_livro);
+            printf("Escreva o nome do campus onde se encontra o livro desejado: ");
+            scanf("%s", campus_livro);
             int prioridade;
-            printf("Escreva o nome do campus do aluno que fez o pedido: ");
+            printf("Escreva o valor da prioridade deste pedido: ");
             scanf("%d",&prioridade);
             
             add_fila(aux->id, aux->nome_aluno, aux->matricula, aux->descricao, campus_aluno, campus_livro, prioridade);
@@ -131,17 +127,17 @@ dadosBasicos* remover_abb(dadosBasicos* aux, int x){
                 aux = NULL;
                 //free(aux);
             }else if(aux->esq == NULL){//só tem um filho a diretia
-                dadosBasicos* aux_dir =  aux;
+                Dados_Basicos* aux_dir =  aux;
                 aux = aux->dir;               
                 //free(aux_dir);
 
             }else if(aux->dir == NULL){//so tem um filho a esquerda
-                dadosBasicos* aux_esq =  aux;
+                Dados_Basicos* aux_esq =  aux;
                 aux = aux->esq;
                 //free(aux_esq);
 
             }else{//tem os dois filhos
-                dadosBasicos * maior_dos_menores = aux->esq;//recebe uma vez para a esquerda
+                Dados_Basicos * maior_dos_menores = aux->esq;//recebe uma vez para a esquerda
                 while(maior_dos_menores->dir != NULL){
                     maior_dos_menores = maior_dos_menores->dir;//e o maximo que der para direita
                 }
@@ -149,14 +145,13 @@ dadosBasicos* remover_abb(dadosBasicos* aux, int x){
                 maior_dos_menores->id = x;
                 aux->esq  = remover_abb(aux->esq, x);//quando achar o maior valor a esquerda chama a função pois entrará nos 3 casos anteriores para remover_abb
             }
-            tam--;
-        }
-    
+        }    
+        tamanho_abb--;
         return aux;    
     }
 }
 
-void in_ordem(dadosBasicos* aux){
+void in_ordem(Dados_Basicos* aux){
     if(aux->esq != NULL){
         in_ordem(aux->esq);
     }
@@ -164,31 +159,8 @@ void in_ordem(dadosBasicos* aux){
     printf("%s\n", aux->nome_aluno);
     printf("%d\n", aux->matricula);
     printf("%s\n", aux->descricao);
+    printf("\n");
     if(aux->dir != NULL){
         in_ordem(aux->dir);
     }
 }
-
-/*int main(){
-    add("Lucas", 1526, "diario de um banana");
-    add("Lucas", 1527, "diario de um banana");
-    add("Lucas", 1528, "diario de um banana");
-    add("Lucas", 1529, "diario de um banana");
-    add("Lucas", 1530, "diario de um banana");
-    add("Lucas", 1531, "diario de um banana");
-    add("Lucas", 1532, "diario de um banana");
-    in_ordem(raiz);
-    raiz = remover_abb(raiz, 51);
-    printf("\n apos a remocao 1\n");
-    in_ordem(raiz);
-    raiz = remover_abb(raiz, 49);
-    printf("\n apos a remocao 2 \n");
-    in_ordem(raiz);
-    raiz = remover_abb(raiz, 100);
-    printf("\n apos a remocao 3\n");
-    in_ordem(raiz);
-    raiz = remover_abb(raiz, 17);
-    printf("\n apos a remocao 4\n");
-    in_ordem(raiz);
-    return 0;
-}*/

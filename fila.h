@@ -1,14 +1,12 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include "struct.h"
 
-dadosCompletos * inicio = NULL;
-dadosCompletos * fim = NULL;
-int tam = 0;
+Dados_Completos * inicio_fila = NULL;
+Dados_Completos * fim_fila = NULL;
+int tamanho_fila = 0; 
 
 void add_fila(int id, char * nome_aluno, int matricula, char *descricao, char *campus_aluno, char *campus_livro, int prioridade){
     
-        dadosCompletos * novo = malloc(sizeof(dadosCompletos));
+        Dados_Completos* novo = malloc(sizeof(Dados_Completos));
         novo->id = id;
         novo->nome_aluno = nome_aluno;
         novo->matricula = matricula;
@@ -18,34 +16,40 @@ void add_fila(int id, char * nome_aluno, int matricula, char *descricao, char *c
         novo->prioridade = prioridade;
         novo->prox = NULL;
     
-        if(inicio == NULL){ //lista vazia
-            inicio = novo;
-            fim = novo;
-            tam++;
-        }else if(inicio->prioridade < novo->prioridade){ //inicio
-            novo->prox = inicio;
-            inicio = novo;
-            tam++;
-        }else if(fim->prioridade > novo->prioridade){ //fim
-            fim->prox = novo;
-            fim = novo;
-            tam++;
+        if(inicio_fila == NULL){ //lista vazia
+            inicio_fila = novo;
+            fim_fila = novo;
+            tamanho_fila++;
+        }else if(inicio_fila->prioridade < novo->prioridade){ //inicio_fila
+            novo->prox = inicio_fila;
+            inicio_fila = novo;
+            tamanho_fila++;
+        }else if(fim_fila->prioridade > novo->prioridade){ //fim_fila
+            fim_fila->prox = novo;
+            fim_fila = novo;
+            tamanho_fila++;
         }else{ // "no meio"
-            dadosCompletos * aux = inicio;
-            for(int i = 0; i < tam; i++){
+            Dados_Completos * aux = inicio_fila;
+            for(int i = 0; i < tamanho_fila; i++){
                 if(aux->prioridade > novo->prioridade)
                     aux = aux->prox;
             }
             novo->prox = aux->prox;
             aux->prox = novo;
-            tam++;
+            tamanho_fila++;
         }
 }
 
 void imprimir_fila(){
-    dadosCompletos * aux = inicio;
-    for(int i = 0; i < tam; i++){
-        printf("Matricula: %d\n", aux->matricula);
-            aux = aux->prox;
+    Dados_Completos* aux = inicio_fila;
+    for(int i = 0; i < tamanho_fila; i++){
+        printf("Codigo do pedido: %d\n", aux->id);
+        printf("Matricula do individuo: %d\n", aux->matricula);
+        printf("nome do meliante: %s\n", aux->nome_aluno);
+        printf("descrião do pedido: %s\n", aux->descricao);
+        printf("Campi do aluno: %s\n", aux->campus_aluno);
+        printf("Campi do livro: %s\n", aux->campus_livro);
+        printf("Prioridade do pedido: %d\n", aux->prioridade);
+        aux = aux->prox;
     }
 }
