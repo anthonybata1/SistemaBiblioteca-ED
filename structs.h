@@ -22,7 +22,7 @@ typedef struct Dados_Completos{
 
 typedef struct servidor{
     int cpf;
-    char *nome;
+    char *nome_serv;
     int senha;
     char *ocupacao;
     struct servidor *prox;
