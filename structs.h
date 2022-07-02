@@ -24,7 +24,7 @@ typedef struct servidor{
     int cpf;
     char *nome_serv;
     int senha;
-    char *ocupacao;
+    char ocupacao;
     struct servidor *prox;
     struct servidor *ant;
 }servidor;

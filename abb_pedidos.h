@@ -91,12 +91,12 @@ Dados_Basicos* remover_abb(Dados_Basicos* aux, int x){
                 printf("\n");  
 
                 add_fila(aux->id, aux->nome_aluno, aux->matricula, aux->descricao, campus_aluno, campus_livro, prioridade);
-        
-                
+            
                 //POR FIM, REMOVE DA ABB
                 if(aux->esq == NULL && aux->dir == NULL){//sem filhos
                     aux = NULL;
                     free(aux);
+
                 }else if(aux->esq == NULL){//só tem um filho a diretia
                     Dados_Basicos* aux_dir =  aux;
                     aux = aux->dir;               
@@ -130,10 +130,10 @@ void in_ordem(Dados_Basicos* aux){
     if(aux->esq != NULL){
         in_ordem(aux->esq);
     }
-    printf("%d \n", aux->id);
-    printf("%s\n", aux->nome_aluno);
-    printf("%d\n", aux->matricula);
-    printf("%s\n", aux->descricao);
+    printf("ID: %d\n", aux->id);
+    printf("NOME: %s\n", aux->nome_aluno);
+    printf("MATRICULA: %d\n", aux->matricula);
+    printf("DESCRICAO DO LIVRO: %s\n", aux->descricao);
     printf("\n");
     if(aux->dir != NULL){
         in_ordem(aux->dir);

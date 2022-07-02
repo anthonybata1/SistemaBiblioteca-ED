@@ -49,7 +49,7 @@ void imprimir_fila(){
         printf("descrião do pedido: %s\n", aux->descricao);
         printf("Campi do aluno: %s\n", aux->campus_aluno);
         printf("Campi do livro: %s\n", aux->campus_livro);
-        printf("Prioridade do pedido: %d\n", aux->prioridade);
+        printf("Prioridade do pedido: %d\n\n", aux->prioridade);
         aux = aux->prox;
     }
 }

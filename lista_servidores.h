@@ -5,7 +5,7 @@ servidor * inicio_lista = NULL;
 servidor * fim_lista = NULL;
 int tamanho_lista = 0;
 
-void add_servidor(int cpf, char *nome, int senha, char *ocupacao){   
+void add_servidor(int cpf, char *nome, int senha, char ocupacao){   
             servidor * novo = malloc(sizeof(servidor));
             novo->cpf = cpf;
             novo->nome_serv = nome;
@@ -27,13 +27,13 @@ void add_servidor(int cpf, char *nome, int senha, char *ocupacao){
                 }
 }
 
-void imprimir_servidores(){
+/* void imprimir_servidores(){
     servidor * aux = inicio_lista;
     for(int i = 0; i < tamanho_lista; i++){
         printf("Nome do servidor: %s\n", aux->nome_serv);
             aux = aux->prox;
     }
-}
+} */
 
 int buscar_servidor(int cpf, int senha){
     int resposta = 0;
