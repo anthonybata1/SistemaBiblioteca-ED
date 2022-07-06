@@ -40,16 +40,44 @@ void add_fila(int id, char * nome_aluno, int matricula, char *descricao, char *c
         }
 }
 
+void remover_fila(){
+    Dados_Completos *aux = inicio_fila;
+    //LOGIN DE ACESSO DOS BIBLIOTECARIOS
+    printf("    LOGIN DE ACESSO: \n");
+    int cpf;
+    printf("        Digite seu CPF: ");
+    scanf("%d", &cpf);
+    int senha;
+    printf("        Digite sua senha: ");
+    scanf("%d", &senha);
+             
+    int acesso = busca_transportador(cpf, senha);
+    if(acesso == 1){
+        
+        inicio_fila = inicio_fila->prox;
+        printf("    Removido com sucesso! \n");
+        printf("    Dados do item removido \n");
+        printf("        Codigo do pedido: %d\n", aux->id);
+        printf("        Matricula do estudante: %d\n", aux->matricula);
+        printf("        Nome do aluno: %s\n", aux->nome_aluno);
+        printf("        Descricao do pedido: %s\n", aux->descricao);
+        printf("        Campus do aluno: %s\n", aux->campus_aluno);
+        printf("        Campus do livro: %s\n", aux->campus_livro);
+        printf("        Prioridade do pedido: %d\n\n", aux->prioridade);
+    free(aux);   
+    } 
+}
+
 void imprimir_fila(){
     Dados_Completos* aux = inicio_fila;
     for(int i = 0; i < tamanho_fila; i++){
-        printf("Codigo do pedido: %d\n", aux->id);
-        printf("Matricula do individuo: %d\n", aux->matricula);
-        printf("nome do meliante: %s\n", aux->nome_aluno);
-        printf("descrião do pedido: %s\n", aux->descricao);
-        printf("Campi do aluno: %s\n", aux->campus_aluno);
-        printf("Campi do livro: %s\n", aux->campus_livro);
-        printf("Prioridade do pedido: %d\n\n", aux->prioridade);
+        printf("        Codigo do pedido: %d\n", aux->id);
+        printf("        Matricula do estudante: %d\n", aux->matricula);
+        printf("        Nome do aluno: %s\n", aux->nome_aluno);
+        printf("        Descricao do pedido: %s\n", aux->descricao);
+        printf("        Campus do aluno: %s\n", aux->campus_aluno);
+        printf("        Campus do livro: %s\n", aux->campus_livro);
+        printf("        Prioridade do pedido: %d\n\n", aux->prioridade);
         aux = aux->prox;
     }
 }

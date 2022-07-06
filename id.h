@@ -1,5 +1,5 @@
 Dados_Basicos* raiz = NULL;
-int tamanho_abb;
+
 
 int busca_id(int x, Dados_Basicos* auxiliar){
     if(auxiliar == NULL){
@@ -21,7 +21,7 @@ int busca_id(int x, Dados_Basicos* auxiliar){
     }
 }
 
-int id_aleatorio(){
+int id_aleatorio(int tamanho_abb){
     //Dado a TAD ser de tamanho_abbanho pequeno irei definir como se nao tivessem 
     //mais de 100 pedidos a serem adicionados
     int numero_aleatorio;

@@ -35,16 +35,38 @@ void add_servidor(int cpf, char *nome, int senha, char ocupacao){
     }
 } */
 
-int buscar_servidor(int cpf, int senha){
+int busca_transportador(int cpf, int senha){
     int resposta = 0;
-        if(inicio_lista->cpf == cpf && inicio_lista->senha == senha){//se for o primeiro registro
+        if(inicio_lista->cpf == cpf && inicio_lista->senha == senha && inicio_lista->ocupacao == 't'){//se for o primeiro registro
             resposta = 1;
-        }else if(fim_lista->cpf == cpf && fim_lista->senha == senha){//se for o ultimo registro
+        }else if(fim_lista->cpf == cpf && fim_lista->senha == senha && inicio_lista->ocupacao == 't'){//se for o ultimo registro
             resposta = 1;
         }else{
             servidor * aux = inicio_lista;
             for(int i= 0; i < tamanho_lista; i++){
-                if(aux->cpf != cpf || aux->senha != senha)
+                if(aux->cpf != cpf || aux->senha != senha || inicio_lista->ocupacao != 't')
+                    aux = aux->prox;
+                else
+                    break;
+            }
+            resposta = 1;
+        }
+        if(resposta == 1){
+            
+        }
+    return resposta;
+}
+
+int busca_bibliotecario(int cpf, int senha){
+    int resposta = 0;
+        if(inicio_lista->cpf == cpf && inicio_lista->senha == senha && inicio_lista->ocupacao == 'b'){//se for o primeiro registro
+            resposta = 1;
+        }else if(fim_lista->cpf == cpf && fim_lista->senha == senha && inicio_lista->ocupacao == 'b'){//se for o ultimo registro
+            resposta = 1;
+        }else{
+            servidor * aux = inicio_lista;
+            for(int i= 0; i < tamanho_lista; i++){
+                if(aux->cpf != cpf || aux->senha != senha || inicio_lista->ocupacao != 'b')
                     aux = aux->prox;
                 else
                     break;
