@@ -3,32 +3,31 @@ Dados_Basicos* raiz = NULL;
 
 int busca_id(int x, Dados_Basicos* auxiliar){
     if(auxiliar == NULL){
-        return 0; //vazia
+        return 0; 
     }else if(x == auxiliar->id){
-        return 1; //Id já cadastrado
-    }else if(x<auxiliar->id){ //buscar no lado esq
+        return 1; 
+    }else if(x<auxiliar->id){ 
         if(auxiliar->esq != NULL){
             return busca_id(x, auxiliar->esq);
-        }else{//esq esta vazia
-            return 0; //não há id's iguais no lado esquerdo
+        }else{
+            return 0; 
         }
-    }else{//buscar no lado dir
+    }else{
         if(auxiliar->dir != NULL){
             return busca_id(x, auxiliar->dir);
-        }else{//dir esta vazia
-            return 0; //não há id's iguais no lado direito
+        }else{
+            return 0; 
         }
     }
 }
 
 int id_aleatorio(int tamanho_abb){
-    //Dado a TAD ser de tamanho_abbanho pequeno irei definir como se nao tivessem 
-    //mais de 100 pedidos a serem adicionados
+    
     int numero_aleatorio;
     int verificador_id = 1;
+   
     if(tamanho_abb == 0){
         return 50;
-    //assim adicionando sempre uma vez na direita e uma na esquerda
     }else if(tamanho_abb % 2 == 0){  
         while(verificador_id == 1){
             numero_aleatorio = 1 + (rand() % 49);

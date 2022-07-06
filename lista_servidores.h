@@ -14,12 +14,12 @@ void add_servidor(int cpf, char *nome, int senha, char ocupacao){
             novo->prox = NULL;
             novo->ant = NULL;
 
-            if( inicio_lista == NULL ){ //pilha vazia
+            if( inicio_lista == NULL ){ 
                 inicio_lista = novo;
                 fim_lista = novo;
                 tamanho_lista++;
             
-            }else { // add (todo os casos) antigo inicio_lista da lista
+            }else { 
                 novo->prox = inicio_lista;
                 inicio_lista->ant = novo;
                 inicio_lista = novo;
@@ -27,19 +27,11 @@ void add_servidor(int cpf, char *nome, int senha, char ocupacao){
                 }
 }
 
-/* void imprimir_servidores(){
-    servidor * aux = inicio_lista;
-    for(int i = 0; i < tamanho_lista; i++){
-        printf("Nome do servidor: %s\n", aux->nome_serv);
-            aux = aux->prox;
-    }
-} */
-
 int busca_transportador(int cpf, int senha){
     int resposta = 0;
-        if(inicio_lista->cpf == cpf && inicio_lista->senha == senha && inicio_lista->ocupacao == 't'){//se for o primeiro registro
+        if(inicio_lista->cpf == cpf && inicio_lista->senha == senha && inicio_lista->ocupacao == 't'){
             resposta = 1;
-        }else if(fim_lista->cpf == cpf && fim_lista->senha == senha && inicio_lista->ocupacao == 't'){//se for o ultimo registro
+        }else if(fim_lista->cpf == cpf && fim_lista->senha == senha && inicio_lista->ocupacao == 't'){
             resposta = 1;
         }else{
             servidor * aux = inicio_lista;
@@ -59,9 +51,9 @@ int busca_transportador(int cpf, int senha){
 
 int busca_bibliotecario(int cpf, int senha){
     int resposta = 0;
-        if(inicio_lista->cpf == cpf && inicio_lista->senha == senha && inicio_lista->ocupacao == 'b'){//se for o primeiro registro
+        if(inicio_lista->cpf == cpf && inicio_lista->senha == senha && inicio_lista->ocupacao == 'b'){
             resposta = 1;
-        }else if(fim_lista->cpf == cpf && fim_lista->senha == senha && inicio_lista->ocupacao == 'b'){//se for o ultimo registro
+        }else if(fim_lista->cpf == cpf && fim_lista->senha == senha && inicio_lista->ocupacao == 'b'){
             resposta = 1;
         }else{
             servidor * aux = inicio_lista;

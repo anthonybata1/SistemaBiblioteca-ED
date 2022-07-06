@@ -16,19 +16,19 @@ void add_fila(int id, char * nome_aluno, int matricula, char *descricao, char *c
         novo->prioridade = prioridade;
         novo->prox = NULL;
     
-        if(inicio_fila == NULL){ //lista vazia
+        if(inicio_fila == NULL){ 
             inicio_fila = novo;
             fim_fila = novo;
             tamanho_fila++;
-        }else if(inicio_fila->prioridade < novo->prioridade){ //inicio_fila
+        }else if(inicio_fila->prioridade < novo->prioridade){ 
             novo->prox = inicio_fila;
             inicio_fila = novo;
             tamanho_fila++;
-        }else if(fim_fila->prioridade > novo->prioridade){ //fim_fila
+        }else if(fim_fila->prioridade > novo->prioridade){ 
             fim_fila->prox = novo;
             fim_fila = novo;
             tamanho_fila++;
-        }else{ // "no meio"
+        }else{ 
             Dados_Completos * aux = inicio_fila;
             for(int i = 0; i < tamanho_fila; i++){
                 if(aux->prioridade > novo->prioridade)
@@ -42,7 +42,7 @@ void add_fila(int id, char * nome_aluno, int matricula, char *descricao, char *c
 
 void remover_fila(){
     Dados_Completos *aux = inicio_fila;
-    //LOGIN DE ACESSO DOS BIBLIOTECARIOS
+
     printf("    LOGIN DE ACESSO: \n");
     int cpf;
     printf("        Digite seu CPF: ");

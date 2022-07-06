@@ -9,8 +9,7 @@ typedef struct Dados_Basicos{
 }Dados_Basicos;
 
 typedef struct Dados_Completos{   
-    //Dados iniciais da encomenda de um livro
-    int id; //identificador
+    int id; 
     char * nome_aluno;
     int matricula;
     char * descricao;

@@ -5,20 +5,20 @@
 int tamanho_abb = 0;
 Dados_Basicos* busca(int x, Dados_Basicos* aux){
     if(aux == NULL){
-        return NULL; //vazia
+        return NULL; 
     }else if(x == aux->id){
-        return aux; //encontrei :D
-    }else if(x<aux->id){ //buscar no lado esq
+        return aux; 
+    }else if(x<aux->id){ 
         if(aux->esq != NULL){
             return busca(x, aux->esq);
-        }else{//esq esta vazia
-            return aux; //pai do elemento que não foi encontrado
+        }else{
+            return aux; 
         }
-    }else{//buscar no lado dir
+    }else{
         if(aux->dir != NULL){
             return busca(x, aux->dir);
-        }else{//dir esta vazia
-            return aux; //pai do elemento que não foi encontrado
+        }else{
+            return aux;
         }
     }
 }
@@ -26,7 +26,7 @@ Dados_Basicos* busca(int x, Dados_Basicos* aux){
 void add_abb(char * nome_aluno, int matricula, char * descricao){
     int x = id_aleatorio(tamanho_abb);
     Dados_Basicos* resp = busca(x, raiz);
-    if(resp == NULL || resp->id != x){// vazia ou eu posso adicionar
+    if(resp == NULL || resp->id != x){
         Dados_Basicos* novo = malloc(sizeof(Dados_Basicos));
         novo->id = x;
         novo->nome_aluno = nome_aluno;
@@ -36,7 +36,7 @@ void add_abb(char * nome_aluno, int matricula, char * descricao){
         novo->esq = NULL;
         novo->dir = NULL;
 
-        if(resp == NULL){ //add na raiz
+        if(resp == NULL){
             raiz = novo;
             tamanho_abb++;
         }else{
@@ -48,8 +48,7 @@ void add_abb(char * nome_aluno, int matricula, char * descricao){
                 tamanho_abb ++;
             }
         }
-    }else{//nao posso deixar add novamente pq neste caso
-        //havera ids duplicadas
+    }else{
         printf("Add inválida. id duplicada");
     }
 }
@@ -57,21 +56,20 @@ void add_abb(char * nome_aluno, int matricula, char * descricao){
 Dados_Basicos* remover_abb(Dados_Basicos* aux, int x){
     
     
-    if(aux == NULL){//se não existe esse aux
+    if(aux == NULL){
         printf("arvore vazia");
         return NULL;
     }else{
-        if(aux->id > x){//se o id desse aux é maior que o valor passado para ser encontrado
+        if(aux->id > x){
             aux->esq = remover_abb(aux->esq, x);
             printf("esq \n");
-        }else if (aux->id < x){//se o id desse aux é menor que o valor passado para ser encontrado
+        }else if (aux->id < x){
             aux->dir = remover_abb(aux->dir, x);
             printf("esq \n");
         }else{
-            printf("    ID ENCONTRADO\n\n");
-            //se foi encontrado o x, começa-se os formatos de remoção
 
-            //LOGIN DE ACESSO DOS BIBLIOTECARIOS
+            printf("    ID ENCONTRADO\n\n");
+
             printf("    LOGIN DE ACESSO: \n");
             int cpf;
             printf("        Digite seu CPF: ");
@@ -82,7 +80,6 @@ Dados_Basicos* remover_abb(Dados_Basicos* aux, int x){
              
             int acesso = busca_bibliotecario(cpf, senha);
             if(acesso == 1){
-                //ADICIONAR NA FILA DEPOIS DO ACESSO FEITO
                 printf("    Escreva o nome do campus onde o aluno que fez o pedido estuda: ");
                 char * campus_aluno = malloc(sizeof(char));
                 scanf("%s", campus_aluno);
@@ -96,33 +93,31 @@ Dados_Basicos* remover_abb(Dados_Basicos* aux, int x){
 
                 add_fila(aux->id, aux->nome_aluno, aux->matricula, aux->descricao, campus_aluno, campus_livro, prioridade);
             
-                //POR FIM, REMOVE DA ABB
-                if(aux->esq == NULL && aux->dir == NULL){//sem filhos
+                if(aux->esq == NULL && aux->dir == NULL){
                     aux = NULL;
                     free(aux);
 
-                }else if(aux->esq == NULL){//só tem um filho a diretia
+                }else if(aux->esq == NULL){
                     Dados_Basicos* aux_dir =  aux;
                     aux = aux->dir;               
                     free(aux_dir);
 
-                }else if(aux->dir == NULL){//so tem um filho a esquerda
+                }else if(aux->dir == NULL){
                     Dados_Basicos* aux_esq =  aux;
                     aux = aux->esq;
                     free(aux_esq);
 
-                }else{//tem os dois filhos
-                    Dados_Basicos * maior_dos_menores = aux->esq;//recebe uma vez para a esquerda
+                }else{
+                    Dados_Basicos * maior_dos_menores = aux->esq;
                     while(maior_dos_menores->dir != NULL){
-                        maior_dos_menores = maior_dos_menores->dir;//e o maximo que der para direita
-                    }
-                    //troca os valores (todos os dados) 
+                        maior_dos_menores = maior_dos_menores->dir;
+                    } 
                     aux->id = maior_dos_menores->id;
                     aux->matricula = maior_dos_menores->matricula;
                     aux->descricao = maior_dos_menores->descricao;
                     aux->nome_aluno = maior_dos_menores->nome_aluno;
                     maior_dos_menores->id = x;
-                    aux->esq  = remover_abb(aux->esq, x);//quando achar o maior valor a esquerda chama a função pois entrará nos 3 casos anteriores para remover_abb
+                    aux->esq  = remover_abb(aux->esq, x);
                 }
                
             }

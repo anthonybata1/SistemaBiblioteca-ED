@@ -6,7 +6,6 @@
 #include "abb_pedidos.h"
 
 int main(){  
-    //OS SERVIDORES: 5 TRANSPORTADORES E 5 BIBLIOTECARIOS  
     add_servidor(0001, "Laura", 2345678, 't');
     add_servidor(4101, "Patricia", 123654, 't');  
     add_servidor(2502, "Jose", 142536, 't'); 
@@ -21,7 +20,6 @@ int main(){
     printf("\nSISTEMA DE ENCOMENDA DE LIVRO DA UFC\n");
     int resp = -1;
     while(resp != 0){
-        //opcoes
         printf("\n 1 - Pedir um livro.\n");
         printf(" 2 - Visualizar pedido.\n");
         printf(" 3 - Remover um pedido.\n");
@@ -31,7 +29,6 @@ int main(){
         printf("Digite a funcionalidade desejada:");
         scanf("%d", &resp);
         if(resp == 1){
-            //fazer um pedido na abb
              printf("\n     Digite o nome do aluno: ");
              char * nome = malloc(sizeof(char));
              scanf(" %[^\n]s", nome);
@@ -43,22 +40,18 @@ int main(){
              scanf(" %[^\n]s", descricao);
             add_abb(nome, matricula, descricao);
         }else if(resp == 3){ 
-            //remover pedidos da abb e add na fila
             printf("\n      Digite o ID do pedido que deseja remover: ");
             int id_teste;
             scanf("%d", &id_teste);
             printf("\n");
             raiz = remover_abb(raiz, id_teste);
         }else if(resp == 4){ 
-            //viasualizar encomendas da fila
             printf("\n      FILA DE ENCOMENDAS:\n\n");
             imprimir_fila();
         }else if(resp == 2){
-            //visualizar pedidos da abb
              printf("\n     ENCOMENDAS DE LIVROS\n\n");
             in_ordem(raiz);
         }else if(resp == 5){
-            //remover encomendas da fila
             remover_fila();
         }
     }
